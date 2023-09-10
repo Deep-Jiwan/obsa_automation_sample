@@ -1,0 +1,210 @@
+
+Prerequisites:
+
+1. Python 3.10.+ installed in your system. (This is for obsrun.py) . 
+
+2. Obs Configurator.exe will not need python but the config.ini and the obs.ico should be in the same path as the .EXE
+
+3. OBS Studio Websocket Python Library. (For obsrun.py) . This can be installed with setup(onetimeonly).bat
+
+4.  OBS Studio v28 Recomended with Websockets.
+
+*** Remember to edit the BAT files as per your directory paths *****
+
+
+---------------------------- Session States -----------------------------------------------------
+
+1. Initialization
+	Script started, and other services starting
+2. Start Session 
+	Streaming and recording started ( If set to ). Holding Slide live for hold time and then PGM will go live
+3. Session
+	Session is ongoing for the runtime amount. Streaming and Recording wil continue as they have been set
+4. Long_Session / Overtime
+	Session is going overtime until scene Long_Session is removed from PGM. Session will enter termination stage once overtime has run out
+5. Termination
+	Session has ended. Holding Slide will come live for hold time, then streaming and recording will stop. OBS will be killed.
+
+______________________________________________________________________________________________________________________________________________________________________________________
+
+HOW TO USE:
+
+1. 	Run Configure.exe to set the Obs settings
+
+2. 	Input the WebSocket settings, Host IP, password, and port as set in OBS Studio
+
+3. 	By default, the settings will load that has been last saved
+
+4.	In case you mess something up, you can always load the last saved settings
+
+5. 	Once you are done, click the save button and you should receive the "SAVE" info dialog box.
+
+6. 	Some feature will need to be edited directly in the Config.ini file like telegram updates, youtube studio link. 
+
+7.	You should first run the "setup_one_time.bat". Run this for the first time only as it will install the required modules to run the script
+
+8.	Launch obs and import the BaseSession.json scene collection and configure your OBS scenes as per your liking. Note: Only the 3 main scenes will be controlled by the script.
+
+9.	Once that is done, you can now run the “run_obs_python.bat” bat file. It will work as per the settings set in the Obs Configurator.
+
+10.	You are also free to make changes to OBS during the live period as required. Do not change the WebSocket settings
+
+11. OBS can be controlled over the web with the address - {address here} - working on this ...
+
+12.	OBS will be killed at the end of the script at the termination state - See above
+
+13. Overtime settings are used when Session enters the "long Session" state. See below.
+
+14.	Output settings, Recording, and Streaming can not be set (framerate, resolution, destination) with this script as of yet. It will be in the future.
+	So if any settings have been changed, Remember to call them back.
+	Scene callback is possible and will execute in the initialization state of this script
+
+15.	More features to roll out.
+
+16.	Suggestions and ideas for the script are welcome. If you spot a typo, you can let me know or try to edit it.
+
+17.	As for now, this has been designed for WINDOWS, but a port to MacOS is possible. You can try tho😊
+
+_______________________________________________________________________________________________________________________________________________________________________________________
+
+
+Guides on what you might see in CMD whilst running the script "obsrun.py"
+
+
+1.  Streaming is set to: False and Recording is set to: False
+
+	This means that the script will neither stream nor record. 
+	
+	If you want to change this, you can do it using the OBS Configurator. 
+	This only tells you in cmd if what you have set is working or not.
+
+2.  Setting the scene
+		This recalls the scene settings to be used
+
+3.  Session has Started
+	This means that stream and recording have started (if set to) and will run for the duration of "run_time" set in the CONFIG
+
+4. The Session will run for _x_ Hours and _y_ Mins
+	Just shows how long the Session will run in the normal state of this script. 
+
+5. Session is in Overtime
+	Session has entered the overtime state (long_Session is in PGM) and will run for the set amount of time extra before termination
+
+6. Thanks for using this service 
+
+------------------------------------------ Long_Session ---------------------------------------------------
+
+- Long_Session state is when Session is going to go on for longer than run_time ( Refer to Session state above. )
+- You can use it as:
+
+1. Switch to the long_Session scene
+2. As long as long_Session is in PGM, streaming and recording will continue until removed from PGM. Then it will continue as normal.
+3. To prevent the over-running of OBS, an overtime limit is implemented.
+4. If PGM is changed to any other scene before the overtime limit is reached, the termination will start
+5. So if Session is coming to an end, switch out of Long_Session and let the script do the rest
+6. If Session is in long_Session state for more than the overtime (in minutes), then Session termination will start automatically
+7. Session termination means that now streaming recording and the service as a whole is going to end
+8. Overtime is just a buffer time to make sure if you "Forgot to switch out of Long_Session".
+
+__________________________________________________________________________________________________________
+
+
+
+
+_________________________________________________________________________________________________________________________________________________________________________________________
+
+
+Useful Links
+
+https://github.com/obsproject/obs-websocket - this we have used - Although, you can use OBS v28 that comes with WebSocket built in.
+https://pypi.org/project/obsws-python/ - This is the python library for WebSocket commands used.
+https://github.com/sashgorokhov/python-telegram-handler - Alert Bot
+https://github.com/python-telegram-bot/python-telegram-bot - Alert Bot
+
+chatgpt - open.ai, For GUI development.
+
+Common troubleshooting helps
+
+> To be added after the first stages of trials
+
+Error and Troubleshooting - Youtube Help
+
+https://www.youtube.com/watch?v=cfFrYsGAVpo&t=96s - python not found
+https://www.youtube.com/watch?v=Gdw0-QGq-z0&t=349s - CONF file usage
+https://www.youtube.com/watch?v=9AwvXLV6Tro&t=14s - reference link, this isn't what has been used
+https://www.youtube.com/watch?v=rqZNskeEP8U&t=386s - Compiling usage, Not required
+https://www.youtube.com/watch?v=Qi28uPKaH_A&t=232s - running python scripts/program
+https://www.youtube.com/watch?v=KxvKCSwlUv8&t=626s - python virtual environment set up ( For Development purposes )
+
+
+Libraries to install
+
+pip install obsws-python
+pip install python-telegram-bot
+pip install python-telegram-handler
+
+___________________________________________________________________________________ ChannelLog ____________________________________________________________________________________
+
+> Project started
+> OBS WebSocket used 
+> v1 started - basic use
+> Config.ini was used and was edited directly with notepad
+
+v1.1
+> Using chat gpt, OBS Configurator GUI was brought to life.
+> Using this GUI the Config file can be edited specifically and in a more user-friendly way instead of editing the with the config.ini directly.
+> GUI was made to be a standalone exe so that dependency on python and libraries is removed
+> Upcoming updates will include: 
+	> Logging
+	> Standalone EXE
+	> Ability to set on a deep level the settings for Recording and Streaming.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+v2.0 - 23/2/23
+> Grammer mistakes and general output text edited, spaced, and made neat
+> Comments were more clear and functions were commented in place
+
+Major Updates
+> Logging has been added
+> Error Handling and exception was implemented with the try block for connecting to OBS Websocket and toggling streaming and recording.
+> Implementation of stop recording and streaming only if they are active at end of the script
+> Implementation of terminate Session function that is used to check if the "long Session" scene is in PGM and wait until it isn't to stop the stream. ("Long_Session" will only run for "Overtime" and not forever, in case forgotten to switch out of long Session)
+> Web control over IP for OBS. Credits are down below.
+> Telegram live updates with the help of ChatGPT. 
+> Released on Github
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+------------------------------------------------------------------- Ideas and Features that can be added -------------------------------------------------------------------------
+
+> Audio Video presence check.
+> Android app control
+> Web control
+> Websocket android
+> Extend time 
+
+
+
+
+
+------------------------------------------------------------- Contributers -------------------------------------------------------------------------------------------------
+
+https://github.com/Deep-Jiwan
+Chatgpt
+https://github.com/Niek/obs-web
+
+
+
+
+
+
+
+
